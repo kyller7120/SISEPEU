@@ -1,0 +1,452 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://code.highcharts.com/css/highcharts.css">
+    <link rel="shortcut icon" href="{% static 'img/logo.ico' %}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <title>Gráficas</title>
+</head>
+<style>
+    .sticky-nav {
+        z-index: 5000;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background-color: #ffffff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-white shadow sticky-nav">
+
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/" style="font-family: 'Copperplate';">SISEPEU</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="login_admin">Administrar Sistema</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="resumenes">Resumenes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="opcion">Tablas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/graficos">Gráficos</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+    </header>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+    <div style="margin-top: 5em;">
+        <figure class="highcharts-figure">
+            <div id="container"></div>
+            <p class="highcharts-description">
+            </p>
+        </figure>
+
+        <script>
+            Highcharts.chart('container', {
+
+                chart: {
+                    type: 'column',
+                    styledMode: true
+                },
+
+                title: {
+                    text: 'Grafica de cantidad de matriculados por año de todas las universidades',
+                    align: 'left'
+                },
+
+                subtitle: {
+                    text: '',
+                    align: 'left'
+                },
+
+                xAxis: {
+                    categories: ['2020', '2021', '2022']
+                },
+
+                yAxis: [{
+                    className: 'highcharts-color-0',
+                    title: {
+                        text: 'Cantidad'
+                    }
+                }, {
+                    className: 'highcharts-color-1',
+                    opposite: true,
+                    title: {
+                        text: ''
+                    }
+                }],
+
+                plotOptions: {
+                    column: {
+                        borderRadius: 1
+                    }
+                },
+
+                series: [
+                    {
+                        name: 'Universidad Albert Einstein',
+                        data: [parseFloat('{{ cantUni1_m2020|default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni1_m2021|default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni1_m2022|default_if_none:"0.0" }}')],
+                        yAxis: 1
+                    },
+
+                    {
+                        name: 'Universidad Autónoma De Santa Ana',
+                        data: [parseFloat('{{ cantUni2_m2020|default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni2_m2021|default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni2_m2022|default_if_none:"0.0" }}')],
+                        yAxis: 1
+                    },
+                    {
+                        name: 'Universidad Capitán General Gerardo Barrios',
+                        data: [parseFloat('{{ cantUni3_m2020|default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni3_m2021|default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni3_m2022|default_if_none:"0.0" }}')],
+                        yAxis: 1
+                    },
+                    {
+                        name: 'Universidad Católica de El Salvador',
+                        data: [parseFloat('{{ cantUni4_m2020|default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni4_m2021|default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni4_m2022|default_if_none:"0.0" }}')],
+                        yAxis: 1
+                    },
+                    {
+                        name: 'Universidad Centroamericana José Simeon Cañas',
+                        data: [parseFloat('{{ cantUni5_m2020|default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni5_m2021|default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni5_m2022|default_if_none:"0.0" }}')],
+                        yAxis: 1
+                    },
+                    {
+                        name: 'Universidad De El Salvador',
+                        data: [parseFloat('{{ cantUni6_m2020|default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni6_m2021|default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni6_m2022|default_if_none:"0.0" }}')],
+                        yAxis: 1
+                    },
+                    {
+                        name: 'Universidad Tecnológica',
+                        data: [parseFloat('{{ cantUni7_m2020|default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni7_m2021|default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni7_m2022|default_if_none:"0.0" }}')],
+                        yAxis: 1
+                    }
+                ]
+
+            });
+
+        </script>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/variable-pie.js"></script>
+        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+        <script src="https://code.highcharts.com/modules/export-data.js"></script>
+        <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+        <figure class="highcharts-figure">
+            <div id="container1"></div>
+            <p class="highcharts-description">
+                
+            </p>
+        </figure>
+        <script>
+            Highcharts.chart('container1', {
+                chart: {
+                    type: 'variablepie'
+                }
+
+                ,
+                title: {
+                    text: '',
+                    align: 'left'
+                }
+
+                ,
+                tooltip: {
+                    headerFormat: '',
+                    pointFormat: '<span style="color:{point.color}">\u25CF</span> <b> {point.name}</b><br/>' + 'Cantidad matriculas (2020, 2021 y 2022): <b>{point.y}</b><br/>'
+                }
+
+                ,
+                series: [{
+
+                    minPointSize: 10,
+                    innerSize: '20%',
+                    zMin: 0,
+                    name: 'Universidades',
+                    borderRadius: 5,
+                    data: [{
+                        name: 'Universidad Albert Einstein',
+                        y: parseFloat('{{ cantUni1_mTotal|default_if_none:"0.0" }}'),
+                        z: 92
+                    }
+
+                        , {
+                        name: 'Universidad Autónoma De Santa Ana',
+                        y: parseFloat('{{ cantUni2_mTotal|default_if_none:"0.0" }}'),
+                        z: 119
+                    }
+
+                        , {
+                        name: 'Universidad Capitán General Gerardo Barrios',
+                        y: parseFloat('{{ cantUni3_mTotal|default_if_none:"0.0" }}'),
+                        z: 121
+                    }
+
+                        , {
+                        name: 'Universidad Católica de El Salvador',
+                        y: parseFloat('{{ cantUni4_mTotal|default_if_none:"0.0" }}'),
+                        z: 136
+                    }
+
+                        , {
+                        name: 'Universidad Centroamericana José Simeon Cañas',
+                        y: parseFloat('{{ cantUni5_mTotal|default_if_none:"0.0" }}'),
+                        z: 200
+                    }
+
+                        , {
+                        name: 'Universidad De El Salvador',
+                        y: parseFloat('{{ cantUni6_mTotal|default_if_none:"0.0" }}'),
+                        z: 213
+                    }
+
+                        , {
+                        name: 'Universidad Tecnológica',
+                        y: parseFloat('{{ cantUni7_mTotal|default_if_none:"0.0" }}'),
+                        z: 235
+                    }
+
+                    ],
+                    colors: ['#4caefe',
+                        '#3dc3e8',
+                        '#2dd9db',
+                        '#1feeaf',
+                        '#0ff3a0',
+                        '#00e887',
+                        '#23e274'
+                    ]
+                }
+
+                ]
+            });
+        </script>
+        <figure class="highcharts-figure">
+            <div id="container2"></div>
+            <p class="highcharts-description">
+            </p>
+        </figure>
+        <script>
+            Highcharts.chart('container2', {
+
+                chart: {
+                    type: 'column',
+                    styledMode: true
+                },
+
+                title: {
+                    text: 'Grafica de cantidad de egresos por año de todas las universidades',
+                    align: 'left'
+                },
+
+                subtitle: {
+                    text: '',
+                    align: 'left'
+                },
+
+                xAxis: {
+                    categories: ['2020', '2021', '2022']
+                },
+
+                yAxis: [{
+                    className: 'highcharts-color-0',
+                    title: {
+                        text: 'Cantidad'
+                    }
+                }, {
+                    className: 'highcharts-color-1',
+                    opposite: true,
+                    title: {
+                        text: ''
+                    }
+                }],
+
+                plotOptions: {
+                    column: {
+                        borderRadius: 1
+                    }
+                },
+
+                series: [
+                    {
+                        name: 'Universidad Albert Einstein',
+                        data: [parseFloat('{{ cantUni1_e2020| default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni1_e2021| default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni1_e2022| default_if_none:"0.0" }}')],
+                        yAxis: 1
+                    },
+
+                    {
+                        name: 'Universidad Autónoma De Santa Ana',
+                        data: [parseFloat('{{ cantUni2_e2020| default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni2_e2021| default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni2_e2022| default_if_none:"0.0" }}')],
+                        yAxis: 1
+                    },
+                    {
+                        name: 'Universidad Capitán General Gerardo Barrios',
+                        data: [parseFloat('{{ cantUni3_e2020| default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni3_e2021| default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni3_e2022| default_if_none:"0.0" }}')],
+                        yAxis: 1
+                    },
+                    {
+                        name: 'Universidad Católica de El Salvador',
+                        data: [parseFloat('{{ cantUni4_e2020| default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni4_e2021| default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni4_e2022| default_if_none:"0.0" }}')],
+                        yAxis: 1
+                    },
+                    {
+                        name: 'Universidad Centroamericana José Simeon Cañas',
+                        data: [parseFloat('{{ cantUni5_e2020| default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni5_e2021| default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni5_e2022| default_if_none:"0.0" }}')],
+                        yAxis: 1
+                    },
+                    {
+                        name: 'Universidad De El Salvador',
+                        data: [parseFloat('{{ cantUni6_e2020| default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni6_e2021| default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni6_e2022| default_if_none:"0.0" }}')],
+                        yAxis: 1
+                    },
+                    {
+                        name: 'Universidad Tecnológica',
+                        data: [parseFloat('{{ cantUni7_e2020| default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni7_e2021| default_if_none:"0.0" }}'),
+                        parseFloat('{{ cantUni7_e2022| default_if_none:"0.0" }}')],
+                        yAxis: 1
+                    },
+                ]
+            });
+        </script>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/variable-pie.js"></script>
+        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+        <script src="https://code.highcharts.com/modules/export-data.js"></script>
+        <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+        <figure class="highcharts-figure">
+            <div id="container4"></div>
+            <p class="highcharts-description">
+            </p>
+        </figure>
+        <script>
+            Highcharts.chart('container4', {
+                chart: {
+                    type: 'variablepie'
+                }
+
+                ,
+                title: {
+                    text: '',
+                    align: 'left'
+                }
+
+                ,
+                tooltip: {
+                    headerFormat: '',
+                    pointFormat: '<span style="color:{point.color}">\u25CF</span> <b> {point.name}</b><br/>' + 'Cantidad matriculas (2020, 2021 y 2022): <b>{point.y}</b><br/>'
+                }
+
+                ,
+                series: [{
+
+                    minPointSize: 10,
+                    innerSize: '20%',
+                    zMin: 0,
+                    name: 'Universidades',
+                    borderRadius: 5,
+                    data: [{
+                        name: 'Universidad Albert Einstein',
+                        y: parseFloat('{{ cantUni1_eTotal|default_if_none:"0.0" }}'),
+                        z: 92
+                    }
+
+                        , {
+                        name: 'Universidad Autónoma De Santa Ana',
+                        y: parseFloat('{{ cantUni2_eTotal|default_if_none:"0.0" }}'),
+                        z: 119
+                    }
+
+                        , {
+                        name: 'Universidad Capitán General Gerardo Barrios',
+                        y: parseFloat('{{ cantUni3_eTotal|default_if_none:"0.0" }}'),
+                        z: 121
+                    }
+
+                        , {
+                        name: 'Universidad Católica de El Salvador',
+                        y: parseFloat('{{ cantUni4_eTotal|default_if_none:"0.0" }}'),
+                        z: 136
+                    }
+
+                        , {
+                        name: 'Universidad Centroamericana José Simeon Cañas',
+                        y: parseFloat('{{ cantUni5_eTotal|default_if_none:"0.0" }}'),
+                        z: 200
+                    }
+
+                        , {
+                        name: 'Universidad De El Salvador',
+                        y: parseFloat('{{ cantUni6_eTotal|default_if_none:"0.0" }}'),
+                        z: 213
+                    }
+
+                        , {
+                        name: 'Universidad Tecnológica',
+                        y: parseFloat('{{ cantUni7_eTotal|default_if_none:"0.0" }}'),
+                        z: 235
+                    }
+
+                    ],
+                    colors: ['#4caefe',
+                        '#3dc3e8',
+                        '#2dd9db',
+                        '#1feeaf',
+                        '#0ff3a0',
+                        '#00e887',
+                        '#23e274'
+                    ]
+                }
+
+                ]
+            });
+        </script>
+    </div>
+</body>
+
+</html>

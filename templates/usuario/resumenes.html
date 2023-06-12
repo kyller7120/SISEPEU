@@ -1,0 +1,201 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <link rel="shortcut icon" href="{% static 'img/logo.ico' %}" type="image/x-icon">
+  <title>Resumenes</title>
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      text-align: center;
+    }
+
+    .nav-item {
+      margin-right: 15px;
+    }
+
+    .card {
+      margin: 20px;
+    }
+
+    .card-body {
+      padding: 10px;
+    }
+
+    ul {
+      list-style-type: disc;
+      margin-left: 20px;
+    }
+
+    .navbar a {
+      color: black;
+      transition: color 0.3s;
+    }
+
+    .navbar a:hover {
+      color: rgb(150, 66, 175);
+    }
+
+    #navbar .navbar-brand,
+    .linea-guiones {
+      border-bottom: 1px dashed purple;
+      width: 100%;
+    }
+
+    .sticky-nav {
+      z-index: 5000;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: #ffffff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .margin_titulo{
+      margin-top:5em;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg bg-white shadow sticky-nav ">
+      <div class="container-fluid"> <a class="navbar-brand" href="/" style="font-family: 'Copperplate';">SISEPEU</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span
+            class="navbar-toggler-icon"></span> </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item"> <a class="nav-link active" aria-current="page" href="login_admin">Administrar
+                Sistema</a> </li>
+            <li class="nav-item"> <a class="nav-link" href="resumenes">Resumenes</a> </li>
+            <li class="nav-item"> <a class="nav-link" href="opcion">Tablas</a> </li>
+            <li class="nav-item"> <a class="nav-link" href="/graficos">Gráficos</a> </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <div class="text-center margin_titulo">
+    <h3 style="font-family: 'Monaco', monospace; color: rgb(214, 154, 43);">Efectos de la pandemia en la eduacion
+      superior</h3>
+  </div>
+  <div class="container">
+    <p class="text-start" style="margin: 0 50px;"> Según las estimaciones de la UNESCO, más de 1.500 millones de
+      estudiantes de 165 países no pueden asistir a los centros de enseñanza debido a la COVID-19. La pandemia ha
+      obligado a la comunidad académica internacional a explorar nuevas formas de enseñar y aprender, incluida la
+      educación a distancia y en línea. El futuro es incierto para todos, y en particular para los millones de
+      estudiantes que tenían que graduarse este año, los cuales se van a enfrentar a un mundo con la economía paralizada
+      por la pandemia. </p>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      <div class="col">
+        <div class="card"> <img src="{% static 'img/imagen1.jpeg' %}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Dificultades tecnológicas y de acceso</h5>
+            <p class="card-text">No todos los estudiantes tienen acceso a la tecnología o una conexión a internet
+              confiable. Esto ha generado desigualdades en el acceso a la educación y dificultades para participar
+              plenamente en las clases en línea.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card"> <img src="{% static 'img/imagen2.jpeg' %}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Transición al aprendizaje en línea</h5>
+            <p class="card-text">Una de las respuestas más comunes a la pandemia fue la transición rápida de las clases
+              presenciales al aprendizaje en línea. Las universidades tuvieron que adoptar plataformas y herramientas
+              digitales para permitir la continuidad educativa.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card"> <img src="{% static 'img/imagen3.jpeg' %}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Impacto en la salud mental de los estudiantes</h5>
+            <p class="card-text">La pandemia y los cambios en la educación universitaria han tenido un impacto
+              significativo en la salud mental de los estudiantes. El estrés, la ansiedad y la sensación de aislamiento
+              se han intensificado.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="background-color: rgb(61, 110, 143); padding: 10px;">
+      <p class="text-start" style="color: white;"><span style="font-size: 2em;">S</span>i bien las interrupciones
+        causadas por la pandemia del COVID-19 están afectando tanto a países ricos como pobres, los estudiantes de
+        grupos subrepresentados se han enfrentado a mayores desafíos. En países con un despliegue limitado de Internet y
+        una baja capacidad de banda ancha, las oportunidades de estudiar en línea son muy limitadas. Los institutos y
+        las universidades en países de bajos ingresos se han esforzado por aplicar programas de educación a distancia de
+        calidad debido a la falta de académicos con experiencia y los recursos adecuados.</p>
+    </div>
+    <div style="display: flex; justify-content: space-between;">
+      <div style="width: 45% ;color: rgb(19, 17, 17); padding: 10px;">
+        <p><strong>Efectos y reacciones a corto plazo</strong></p>
+        <ul style="text-align: justify;">
+          <li style="color: rgb(63, 63, 107);">Cierres y transición a una educación en línea</li>
+          <p> preparación fue muy desigual entre países e instituciones. Las universidades y los institutos de países en
+            vías de desarrollo se han enfrentado a graves dificultades por tener acceso a Internet y a una
+            infraestructura informática.</p>
+          <li style="color: rgb(63, 63, 107);">Impacto en los estudiantes</li>
+          <p> conmoción provocada por el cierre abrupto de los campus y el rápido cambio a la educación en línea ha
+            alterado la vida de los estudiantes de todo el mundo. Los estudiantes de grupos con menor representación se
+            han visto muy afectados, con problemas económicos, dificultades de conexión y angustia emocional.</p>
+          <li style="color: rgb(63, 63, 107);">Evaluación y exámenes en transición</li>
+          <p>instituciones de educación superior han enfrentado decisiones difíciles al evaluar en línea, como también
+            el riesgo de que se efectúen malas prácticas.</p>
+        </ul>
+      </div>
+      <div style="width: 45%;color: rgb(24, 22, 22); padding: 10px;">
+        <p><strong>Efectos y reacciones a corto plazo</strong></p>
+        <ul style="text-align: justify;">
+          <li style="color: rgb(63, 63, 107);">Disminución de las clases y aumento de la falta de aprendizaje de los
+            estudiantes</li>
+          <p>Muchos estudiantes tuvieron una experiencia de aprendizaje incompleta durante el año académico 2019-2020.
+            Se ha aumentado los problemas de salud mental en ellos.</p>
+          <li style="color: rgb(63, 63, 107);">Recursos reducidos, demanda cambiante, cierres y reestructuración</li>
+          <p>La crisis ha revelado debilidades estructurales en los modelos de financiamiento actuales de muchos
+            sistemas e instituciones de educación superior. Un gran número de estudiantes con recursos limitados podría
+            abandonar sus estudios de educación superior.</p>
+          <li style="color: rgb(63, 63, 107);">Impacto en la investigación</li>
+          <p>El cierre de laboratorios y las restricciones de viaje provocan que los investigadores no puedan continuar
+            sus experimentos o investigaciones en terreno, excepto cuando el trabajo de laboratorio y las colaboraciones
+            se pueden mantener.</p>
+        </ul>
+      </div>
+    </div>
+    <div class="linea-guiones"></div>
+    <div class="linea-guiones"></div>
+    <div class="text-center mt-4">
+      <p style="margin: 0 50px;"> Durante la primera fase de la pandemia en la cual la suspensión de clases presenciales
+        abarcó a la totalidad del sistema educativo, el acceso a dispositivos electrónicos y conectividad en el hogar
+        resultó crítico para el sostenimiento de la escolaridad a distancia. Si bien se desplegaron estrategias ad hoc
+        para ofrecer alternativas a estudiantes que no contaban con estas herramientas como por ejemplo la distribución
+        de cuadernillos impresos, la programación específica de radio y TV en el marco del programa Seguimos Educando o
+        el acceso a plataformas educativas desde teléfonos celulares sin consumo de datos la evidencia recogida puso de
+        manifiesto que las desigualdades en el acceso a recursos TIC tuvieron un efecto negativo sobre el tipo de
+        continuidad pedagógica que los chicos y chicas pudieron sostener durante 2020 (MEN-UNICEF, 2020; UNICEF, 2021a).
+      </p>
+    </div>
+    <div class="text-center mt-4 flex row justify-content-center">
+      <div class="card w-50"> 
+        <img src="{% static 'img/imagen4.jpeg' %}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Estudiantes con educaciona a distacia</h5>
+          <p class="card-text">Asistencia virtual, bimodal o solo presencial con interrupciones temporales por caso de
+            covid, segun tipologia de acceso a recursos TIC.</p>
+          <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"></script>
+</body>
+
+</html>

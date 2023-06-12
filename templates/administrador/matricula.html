@@ -1,0 +1,590 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+  <link rel="shortcut icon" href="{% static 'img/logo.ico' %}" type="image/x-icon">
+  <title>Matricula</title>
+</head>
+<style>
+  td,
+  th {
+    text-align: center;
+  }
+  .sticky-nav {
+      z-index: 5000;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: #ffffff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-nav" data-bs-theme="dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">SISEPEU</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="login_admin">Volver a Gestión</a> 
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="graficos">Gráficos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="logout">Cerrar Sesión</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <div class="container" style="max-width: 400px; margin-bottom: 1em; margin-top:2em; padding-top: 50px;">
+    <h2 class="title">Gestion de Matriculas</h2>
+    <form id="matriculaForm" method="POST" action="/matricula">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="anio" class="form-label">Año</label>
+        <select id="anio" name="anio" class="form-control">
+          <option value="">Selecciona un año</option>
+          <option>2020</option>
+          <option>2021</option>
+          <option>2022</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="universidad" class="form-label">Universidad</label>
+        <select id="universidad" name="universidad" class="form-control" onchange="cargarFacultades()">
+          <option value="">Selecciona una universidad</option>
+          <option value="uni1">Universidad Albert Einstein</option>
+          <option value="uni2">Universidad Autónoma De Santa Ana</option>
+          <option value="uni3">Universidad Capitán General Gerardo Barrios</option>
+          <option value="uni4">Universidad Católica de El Salvador</option>
+          <option value="uni5">Universidad Centroamericana José Simeon Cañas</option>
+          <option value="uni6">Universidad De El Salvador</option>
+          <option value="uni7">Universidad Tecnológica</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="facultad" class="form-label">Facultad</label>
+        <select id="facultad" name="facultad" class="form-control" onchange="cargarCarreras()">
+          <option value="">Selecciona una facultad</option>
+          {% for facultad in facultades %}
+          <option value="{{ facultad }}">{{ facultad }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="carrera" class="form-label">Carrera</label>
+        <select id="carrera" name="carrera" class="form-control">
+          <option value="">Selecciona una carrera</option>
+          {% for carrera in carreras %}
+          <option value="{{ carrera }}">{{ carrera }}</option>
+          {% endfor %}
+        </select>
+        <p>
+
+
+        </p>
+      </div>
+      <button style="width: 100%" type="submit" class="btn btn-primary btn-block">Consultar</button>
+    </form>
+  </div>
+  <p>
+
+
+  </p>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    var facultadesPorUniversidad = {
+      uni1: ["Facultad de Arquitectura", "Facultad de Ingenierias", "Facultad de Ciencias Empresariales"],
+
+      uni2: ["Facultad de Ciencias de La Salud", "Facultad de Ciencias Sociales"],
+
+      uni3: ["Arquitectura", "Ingenieria", "Ciencias Empresariales",
+        "Facultad de Ciencias Juridicas",],
+
+      uni4: ["Facultad de Ingenieria y Arquitectura", "Facultad Ciencias de la Salud",
+        "Facultad Ciencias Empresariales", "Facultad de Ciencias y Humanidades", "Derecho"],
+
+      uni5: ["Educacion", "Arquitectura e Ingenierias", "Gestion Empresarial y Economia",
+        "Ciencias Sociales y Humanidades", "Comunicaciones y Mercadeo", "Ciencias Sociales"],
+
+      uni6: ["Ciencias Agronomicas", "Ciencias Economicas", "Ciencias Naturales", "Humanidades",
+        "Ingenieria y Arquitectura", "Jurisprudencia", "Medicina", "Multidisciplinaria Occidente",
+        "Multidisciplinaria Oriente", "Multidisciplinaria Paracentral", "Odontologia", "Quimica y Farmacia"],
+
+      uni7: ["Facultad de Tecnologia", "Facultad de Ingenieria", "Facultad de Ciencias Culinarias",
+        "Fac Ciencias Empresariales",],
+    };
+
+    var carrerasPorFacultad = {
+      //////  1
+      "Facultad de Arquitectura": ["Arquitectura", "Licenciatura en Diseño Ambiental"],
+
+      "Facultad de Ingenierias": ["Ingenieria Civil", "Ingenieria Electrica",
+        "Ingenieria en Computacion", "Ingenieria Industrial", "Ingenieria Mecanica",],
+
+      "Facultad de Ciencias Empresariales": ["Licenciatura en Administracion de Empresas", "Licenciatura en Administracion de Empresas"],
+
+      ////// 2
+
+      "Facultad de Ciencias de La Salud": ["Doctorado en Cirugia Dental", "Doctorado en Medicina",
+        "Licenciatura en Educacion Fisica, Deportes y Recreacion", "Licenciatura en Enfermeria",
+        "Licenciatura en Fisioterapia", "Licenciatura en Laboratorio Clinico", "Licenciatura en Nutricion"],
+
+      "Facultad de Ciencias Sociales": [
+        "Licenciatura en Ciencias de la Comunicacion", "Licenciatura en Ciencias del Deporte, Actividad Fisica y Recreacion",
+        "Licenciatura de Diseño Grafico Multimedia"],
+
+      ////// 3
+      "Arquitectura": ["Arquitectura"],
+
+      "Ingenieria": ["Ingenieria Civil", "Ingenieria en Manejo y Gestion de Bases de Datos",
+        "Ingenieria en Sistemas y Redes Informaticas",
+        "Ingenieria en Sistemas y Redes Informaticas - No Presencial", "Ingenieria Industrial"],
+
+      "Ciencias Empresariales": [
+        "Licenciatura en Administración de Empresas",
+        "Licenciatura en Administración de Empresas - No Presencial",
+        "Licenciatura en Administración de Empresas Turísticas"],
+
+      ///// 4
+
+      "Facultad de Ingenieria y Arquitectura": [
+        "Arquitectura",
+        "Ingeniería Agronómica",
+        "Ingeniería Civil",
+        "Ingeniería en Desarrollo de Software",
+        "Ingeniería en Sistemas Informáticos",
+        "Ingeniería en Tecnología y Procesamiento de Alimentos - Semipresencial",
+        "Ingeniería en Telecomunicaciones y Redes",
+        "Ingeniería Industrial"
+      ],
+      "Facultad de Ciencias de la Salud": [
+        "Doctorado en Medicina"
+      ],
+      "Facultad Ciencias Empresariales": [
+        "Licenciatura en Administración de Empresas",
+        "Licenciatura en Administración de Empresas - Semipresencial",
+        "Licenciatura en Contaduría Pública",
+        "Licenciatura en Gestión y Desarrollo Turístico",
+        "Licenciatura en Mercadeo y Negocios Internacionales",
+        "Licenciatura en Sistemas Informáticos Administrativos"
+      ],
+      "Facultad de Ciencias y Humanidades": [
+        "Licenciatura en Ciencias de la Educación con Especialidad en Idioma Inglés",
+        "Licenciatura en Ciencias de la Educación con Especialidad en Matemática - Semipresencial",
+        "Licenciatura en Ciencias de la Educación con Especialidad en Educación Básica",
+        "Licenciatura en Ciencias de la Educación con Especialidad en Educación Básica - Semipresencial",
+        "Licenciatura en Ciencias de la Educación con Especialidad Matemática (Semipresencial)",
+        "Licenciatura en Ciencias de la Educación con Especialidad en Dirección y Administración Escolar",
+        "Licenciatura en Ciencias Jurídicas",
+        "Licenciatura en Ciencias Religiosas",
+        "Licenciatura en Diseño Gráfico Publicitario",
+        "Licenciatura en Educación Inicial y Parvularia",
+        "Licenciatura en Idioma Inglés",
+        "Licenciatura en Idioma Inglés - Semipresencial",
+        "Licenciatura en Periodismo y Comunicación Audiovisual"
+      ],
+      "Facultad Ciencias de la Salud": [
+        "Licenciatura en Enfermería"
+      ],
+
+      ////// 5
+
+      "Educacion": [
+        "Profesorado en Educación Básica para Primer y Segundo Ciclos (a distancia)",
+        "Profesorado en Educación Inicial y Parvularia",
+        "Profesorado en Idioma Inglés para Tercer Ciclo de Educación Básica y Educación Media",
+        "Profesorado en Teología",
+        "Licenciatura en Educación Básica para Primer y Segundo Ciclos",
+        "Licenciatura en Educación Inicial y Parvularia"
+      ],
+      "Arquitectura e Ingenierias": [
+        "Arquitectura",
+        "Ingeniería Civil",
+        "Ingeniería de Alimentos",
+        "Ingeniería Eléctrica",
+        "Ingeniería Energética",
+        "Ingeniería Industrial",
+        "Ingeniería Informática",
+        "Ingeniería Mecánica",
+        "Ingeniería Química"
+      ],
+      "Gestion Empresarial y Economia": [
+        "Licenciatura en Administración de Empresas",
+        "Licenciatura en Contaduría Pública",
+        "Licenciatura en Economía"
+      ],
+      "Comunicaciones y Mercadeo": [
+        "Licenciatura en Ciencias de la Computación",
+        "Licenciatura en Comunicación Social",
+        "Licenciatura en Mercadeo"
+      ],
+      "Derecho": [
+        "Licenciatura en Ciencias Jurídicas"
+      ],
+      "Ciencias Sociales y Humanidades": [
+        "Licenciatura en Filosofía",
+        "Licenciatura en Idioma Inglés",
+        "Licenciatura en Psicología",
+        "Licenciatura en Teología"
+      ],
+
+      ////// 6 
+
+      "Ciencias Agronomicas": [
+        "Ingenieria Agronomica",
+        "Licenciatura en Medicina Veterinaria y Zootecnia",
+        "Maestria en Gestion Integral del Agua"
+      ],
+      "Ciencias Economicas": [
+        "Licenciatura en Administracion de Empresas",
+        "Licenciatura en Contaduria Publica",
+        "Licenciatura en Economia",
+        "Licenciatura en Mercadeo Internacional",
+        "Maestria en Administracion de Empresas",
+        "Maestria en Administracion Financiera"
+      ],
+      "Ciencias Naturales": [
+        "Licenciatura en Geofisica",
+        "Licenciatura en Biologia",
+        "Licenciatura en Fisica",
+        "Licenciatura en Matematica",
+        "Licenciatura en Estadistica",
+        "Licenciatura en Ciencias Quimicas",
+        "Licenciatura en Fisica",
+        "Licenciatura en Biologia",
+        "Maestria en Didactica de la Matematica",
+        "Maestria en Quimica",
+        "Maestria en Fisica",
+        "Maestria en Gestion Ambiental",
+        "Manejo Sustentable de los Recursos Naturales Continentales",
+        "Profesorado en Ciencias Naturales (Tercer Ciclo y Bachillerato)",
+        "Profesorado en Educacion Media (Ensenanza de la Biologia)",
+        "Profesorado en Matematica (Tercer Ciclo y Bachillerato)"
+      ],
+
+      "Humanidades": [
+        "Curso de Formación Pedagógica para Profesionales",
+        "Licenciatura en Filosofía",
+        "Licenciatura en Sociología",
+        "Licenciatura en Psicología",
+        "Licenciatura en Letras",
+        "Licenciatura en Periodismo",
+        "Licenciatura en Idioma Inglés",
+        "Licenciatura en Idioma Inglés (Enseñanza)",
+        "Licenciatura en Lenguas Modernas (Francés e Inglés)",
+        "Licenciatura en Educación (Servicio Alternativo)",
+        "Licenciatura en Educación",
+        "Licenciatura en Educación (Educación Física)",
+        "Licenciatura en Artes Plásticas",
+        "Licenciatura en Historia",
+        "Licenciatura en Trabajo Social",
+        "Licenciatura en Antropología Sociocultural",
+        "Maestría en Derechos Humanos y Educación para la Paz",
+        "Maestría en Métodos y Técnicas de Investigación Social",
+        "Maestría en Traducción (Inglés-Español / Español-Inglés)",
+        "Maestría en Didáctica y Formación del Profesorado",
+        "Maestría en Didáctica para la Formación Docente",
+        "Maestría en Formación para la Docencia Universitaria",
+        "Profesorado en Educación Parvularia",
+        "Profesorado en Educación Básica (Primero y Segundo Ciclos)",
+        "Profesorado en Educación Media (Enseñanza del Inglés)",
+        "Profesorado en Lenguaje y Literatura (Tercer Ciclo)",
+        "Profesorado en Idioma Inglés (Tercer Ciclo)",
+        "Profesorado en Ciencias Sociales (Tercer Ciclo)",
+        "Técnico en Bibliotecología"
+      ],
+
+      "Ingenieria y Arquitectura": [
+        "Arquitectura",
+        "Ingeniería Civil",
+        "Ingeniería Industrial",
+        "Ingeniería Mecánica",
+        "Ingeniería Eléctrica",
+        "Ingeniería Química",
+        "Ingeniería de Alimentos",
+        "Ingeniería en Sistemas Informáticos",
+        "Maestría en Gestión de Recursos Hidrológicos"
+      ],
+      "Jurisprudencia": [
+        "Licenciatura en Ciencias Jurídicas",
+        "Licenciatura en Relaciones Internacionales",
+        "Maestría en Relaciones Internacionales"
+      ],
+      "Medicina": [
+        "Doctorado en Medicina",
+        "Licenciatura en Laboratorio Clínico",
+        "Licenciatura en Anestesiología e Inhaloterapia",
+        "Licenciatura en Radiología e Imágenes",
+        "Licenciatura en Nutrición",
+        "Licenciatura en Educación para la Salud",
+        "Licenciatura en Ecotecnología",
+        "Licenciatura en Salud Materno Infantil",
+        "Licenciatura en Fisioterapia y Terapia Ocupacional",
+        "Licenciatura en Salud Ambiental",
+        "Licenciatura en Enfermería",
+        "Maestría en Salud Pública",
+        "Maestría en Servicios Integrales de Salud Sexual y Reproductiva",
+        "Maestría en Educación en Salud Sexual y Reproductiva",
+        "Tecnología en Anestesiología",
+        "Tecnología en Radiología",
+        "Tecnología en Fisioterapia",
+        "Técnico en Laboratorio Clínico"
+      ],
+
+      "Multidisciplinaria Occidente": [
+        "Arquitectura",
+        "Doctorado en Medicina",
+        "Curso de Formación Pedagógica para Profesionales",
+        "Ingeniería Civil",
+        "Ingeniería Industrial",
+        "Ingeniería Mecánica",
+        "Ingeniería Eléctrica",
+        "Ingeniería Química",
+        "Ingeniería de Sistemas Informáticas",
+        "Licenciatura en Ciencias Jurídicas",
+        "Licenciatura en Educación (Primero y Segundo Ciclos)",
+        "Licenciatura en Sociología",
+        "Licenciatura en Psicología",
+        "Licenciatura en Letras",
+        "Licenciatura en Idioma Inglés (Enseñanza)",
+        "Licenciatura en Educación (Inglés)",
+        "Licenciatura en Ciencias del Lenguaje y la Literatura",
+        "Licenciatura en Educación (Matemática)",
+        "Licenciatura en Educación (Servicio Alternativo)",
+        "Licenciatura en Educación (Lenguaje y Literatura)",
+        "Licenciatura en Educación (Ciencias Sociales)",
+        "Licenciatura en Química y Farmacia",
+        "Licenciatura en Contaduría Pública",
+        "Licenciatura en Administración de Empresas",
+        "Licenciatura en Mercadeo Internacional",
+        "Licenciatura en Biología",
+        "Licenciatura en Estadística",
+        "Licenciatura en Ciencias Químicas",
+        "Maestría en Profesionalización de la Docencia Superior",
+        "Maestría en Métodos y Técnicas de Investigación Social",
+        "Maestría en Administración Financiera",
+        "Profesorado en Educación Básica (Primero y Segundo Ciclos)",
+        "Profesorado en Lenguaje y Literatura (Primero y Segundo Ciclos)",
+        "Profesorado en Idioma Inglés (Tercer Ciclo y Bachillerato)",
+        "Profesorado en Ciencias Sociales (Tercer Ciclo y Bachillerato)",
+        "Profesorado en Ciencias Naturales (Tercer Ciclo y Bachillerato)",
+        "Profesorado en Matemática (Tercer Ciclo y Bachillerato)"
+      ],
+
+      "Multidisciplinaria Oriente": [
+        "Arquitectura",
+        "Curso de Formación Pedagógica para Profesionales",
+        "Doctorado en Medicina",
+        "Ingeniería Agronómica",
+        "Ingeniería Civil",
+        "Ingeniería Industrial",
+        "Ingeniería Mecánica",
+        "Ingeniería Eléctrica",
+        "Licenciatura en Laboratorio Clínico",
+        "Licenciatura en Anestesiología e Inhaloterapia",
+        "Licenciatura en Fisioterapia y Terapia Ocupacional",
+        "Licenciatura en Ciencias Jurídicas",
+        "Licenciatura en Educación (Educación Básica)",
+        "Licenciatura en Sociología",
+        "Licenciatura en Psicología",
+        "Licenciatura en Letras",
+        "Licenciatura en Educación",
+        "Licenciatura en Química y Farmacia",
+        "Licenciatura en Economía",
+        "Licenciatura en Contaduría Pública",
+        "Licenciatura en Administración de Empresas",
+        "Licenciatura en Matemática",
+        "Licenciatura en Estadística",
+        "Licenciatura en Ciencias Químicas",
+        "Licenciatura en Física",
+        "Licenciatura en Biología",
+        "Profesorado en Educación Parvularia",
+        "Profesorado en Educación Básica (Primero y Segundo Ciclos)",
+        "Profesorado en Lenguaje y Literatura (Tercer Ciclo y Bachillerato)",
+        "Profesorado en Idioma Inglés (Tercer Ciclo y Bachillerato)",
+        "Profesorado en Ciencias Sociales (Tercer Ciclo y Bachillerato)",
+        "Profesorado en Ciencias Naturales (Tercer Ciclo y Bachillerato)",
+        "Profesorado en Matemática (Tercer Ciclo y Bachillerato)"
+      ],
+
+      "Multidisciplinaria Paracentral": [
+        "Ingeniería Agronómica",
+        "Ingeniería de Sistemas Informáticos",
+        "Licenciatura en Educación (Ciencias Sociales)",
+        "Licenciatura en Contaduría Pública",
+        "Profesorado en Educación Parvularia",
+        "Profesorado en Educación Básica (Primero y Segundo Ciclos)",
+        "Profesorado en Ciencias Sociales (Tercer Ciclo)",
+        "Profesorado en Ciencias Naturales (Tercer Ciclo y Bachillerato)",
+        "Profesorado en Matemática (Tercer Ciclo y Bachillerato)"
+      ],
+      "Odontologia": [
+        "Doctorado en Cirugía Dental"
+      ],
+      "Quimica y Farmacia": [
+        "Licenciatura en Química y Farmacia"
+      ],
+
+      ///// 7
+
+      "Facultad de Tecnologia": [
+        "Tecnologia en Informatica",
+        "Tecnologia en Informatica",
+        "Tecnologia en Informatica"
+      ],
+
+      "Facultad de Ingenieria": [
+        "Tecnologia en Mecatronica",
+        "Tecnologia en Mecatronica",
+        "Tecnologia en Mecatronica"
+      ],
+      "Facultad de Ciencias Culinarias": [
+        "Tecnologia en Gastronomia",
+        "Tecnologia en Gastronomia",
+        "Tecnologia en Gastronomia"
+      ],
+      "Fac Ciencias Empresariales": [
+        "Tecnologia en Administracion Industrial",
+        "Tecnologia en Administracion Industrial",
+        "Tecnologia en Administracion Industrial"
+      ],
+      "Facultad de Ingenieria": [
+        "Ingenieria Civil",
+        "Ingenieria Industrial",
+        "Ingenieria en Informatica"
+      ],
+      "Facultad de Ciencias de la Salud": [
+        "Medicina",
+        "Odontologia",
+        "Enfermeria"
+      ],
+      "Facultad de Derecho": [
+        "Derecho",
+        "Ciencias Politicas"
+      ],
+      "Facultad de Economia y Negocios": [
+        "Administracion de Empresas",
+        "Contador Auditor"
+      ],
+      "Facultad de Educacion": [
+        "Pedagogia",
+        "Psicologia Educacional"
+      ]
+    };
+    window.addEventListener("DOMContentLoaded", function () {
+      var universidadSelect = document.getElementById("universidad");
+      universidadSelect.selectedIndex = 0;
+    });
+
+    function cargarFacultades() {
+      var universidadSelect = document.getElementById("universidad");
+      var facultadSelect = document.getElementById("facultad");
+      var carreraSelect = document.getElementById("carrera");
+
+      var universidad = universidadSelect.value;
+
+      facultadSelect.innerHTML = "<option value=''>Selecciona una facultad</option>";
+      carreraSelect.innerHTML = "<option value=''>Selecciona una carrera</option>";
+      if (universidad !== "") {
+        var facultades = facultadesPorUniversidad[universidad];
+
+        facultades.forEach(function (facultad) {
+          var option = document.createElement("option");
+          option.value = facultad;
+          option.text = facultad;
+          facultadSelect.appendChild(option);
+        });
+      }
+    }
+
+    function cargarCarreras() {
+      var facultadSelect = document.getElementById("facultad");
+      var carreraSelect = document.getElementById("carrera");
+
+      var facultad = facultadSelect.value;
+
+      carreraSelect.innerHTML = "<option value=''>Selecciona una carrera</option>";
+
+      if (facultad !== "") {
+        var carreras = carrerasPorFacultad[facultad];
+
+        carreras.forEach(function (carrera) {
+          var option = document.createElement("option");
+          option.value = carrera;
+          option.text = carrera;
+          carreraSelect.appendChild(option);
+        });
+      }
+    }
+
+    document.getElementById("matriculaForm").addEventListener("submit", function () {
+      var universidadSelect = document.getElementById("universidad");
+    });
+  </script>
+
+  <div class="container">
+    <div class="row justify-content-center">
+      <a href="crear_matricula" class="btn btn-primary" style="width:15%">Crear</a><br>
+      <p>
+
+
+      </p>
+      <table class="table" style="width:90% ">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">Año</th>
+            <th scope="col">Universidad</th>
+            <th scope="col">Facultad</th>
+            <th scope="col">Carrera</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col" colspan="2">Operaciones</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          {% for e in lista %}
+          <tr>
+            <td>{{ e.anio }}</td>
+            <td>{{ e.universidad }}</td>
+            <td>{{ e.facultad }}</td>
+            <td>{{ e.carrera }}</td>
+            <td>{{ e.cantidad }}</td>
+            <td>
+              <a href="{% url 'info_app:eliminar_matricula' e.id %}"><i class="fa-solid fa-trash"></i></a>
+            </td>
+            <td>
+              <a href="{% url 'info_app:modificar_matricula' e.id %}"><i class="fa-solid fa-pen-to-square"></i></a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
