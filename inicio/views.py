@@ -268,7 +268,7 @@ def logout_view(request):
     return redirect('/')
 
 ###################### CRUD MATRICULA ######################
-
+@login_required
 def matricula(request):
     if request.method == 'POST':
         anio = request.POST.get('anio')
