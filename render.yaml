@@ -1,11 +1,11 @@
 databases:
-  - name: sisepeu
-    databaseName: sisepeu
-    user: admin
+  - name: sisepeu_whfo
+    databaseName: sisepeu_whfo
+    user: sisepeu_whfo_user
 
 services:
   - type: web
-    name: sisepeu
+    name: sisepeu_whfo
     env: python
     buildCommand: "./render/build.sh"
     startCommand: "gunicorn sisepeu.wsgi:application"
