@@ -94,7 +94,7 @@ WSGI_APPLICATION = 'sisepeu.wsgi.application'
 DATABASES = {
     'default': dj_database_url.config(
 
-        default='postgres://admin:TFIIrWVP92VJGas6TnCXj2z6WKzivvfa@dpg-ci3pjiliuie031lf5jt0-a.oregon-postgres.render.com/sisepeu',
+        default='postgres://sisepeu_whfo_user:ynAfIo0sTKRzYcZ3JR5o3w82NjhyyKYt@dpg-cpe1t3vsc6pc7398agv0-a/sisepeu_whfo',
         conn_max_age=600
     )
 }
